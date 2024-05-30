@@ -1,7 +1,7 @@
 import datetime
 import re
 
-from sqlalchemy import Column, ForeignKey, Integer, DateTime, CheckConstraint, String, orm, Boolean
+from sqlalchemy import Column, ForeignKey, Integer, DateTime, CheckConstraint, String, orm, Boolean, Sequence
 from sqlalchemy.orm import relationship, Mapped
 
 from database import Base
@@ -10,14 +10,14 @@ from schemas.todo import Todo
 
 class Cell(Base):
     __tablename__ = "cells"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     owner_id = Column(Integer, ForeignKey("users.id"))
     owner = relationship("User")
     sheet_id = Column(Integer, ForeignKey("sheets.id"))
     sheet = relationship("Sheet")
     todos: Mapped[list[Todo]] = relationship("Todo", back_populates="cell")
-    goal = Column(String, nullable=True)
-    color = Column(String, nullable=True)
+    goal = Column(String(255), nullable=True)
+    color = Column(String(255), nullable=True)
     step = Column(Integer, default=1, nullable=False)
     order = Column(Integer, default=1, nullable=False)
     parent_id = Column(Integer, ForeignKey("cells.id"))
