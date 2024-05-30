@@ -21,7 +21,8 @@ engine = create_engine(
         'user': user,
         'password': passwd,
         'dsn': tns_name,
-    }
+    },
+    echo=True
 )
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
